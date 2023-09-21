@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Puzzle</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    /* Style for the footer */
+.footer {
+    background-color: #333; /* Dark background color */
+    color: #fff; /* Light text color */
+}
+
+/* Profile Card styles */
+.profile-card {
+    text-align: center;
+}
+
+.profile-image {
+    width: 100px;
+    height: 130px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+}
+
+/* Backtracking section styles */
+.backtracking-heading {
+    cursor: pointer;
+}
+
+.backtracking-content {
+    display: none;
+}
+
+.backtracking-section {
+    background-color: #333; /* Dark background color */
+    color: #fff; /* Light text color */
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 300px; /* Adjust the width as needed */
+    overflow-y: scroll; /* Add scroll if content exceeds height */
+}
+
+/* Style for the expanded description */
+.backtracking-content.show {
+    display: block;
+}
+.links-card {
+    background-color: #333; /* Dark background color */
+    color: #fff; /* Light text color */
+    padding: 20px;
+    width: 300px; /* Adjust the width as needed */
+}
+
+.links-card h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.social-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.social-links li {
+    margin-right: 10px;
+}
+
+.social-links a img {
+    width: 32px; /* Adjust icon size as needed */
+    height: 32px;
+    border-radius: 50%;
+    transition: transform 0.3s ease-in-out;
+}
+
+.social-links a img:hover {
+    transform: scale(1.1); /* Add a hover effect */
+}
+.card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            cursor: pointer;
+        }
+
+        .content {
+            display: none;
+        }
+</style>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Sudoku Puzzle</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <table id="sudoku-grid" class="table table-bordered text-center"></table>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6"style="left: 106px;">
+                <button id="generate-button" class="btn btn-primary">Generate Sudoku</button>
+                <button id="solve-button" class="btn btn-success">Solve Sudoku</button>
+                <button id="submit-button" class="btn btn-info">Submit</button>
+            </div>
+        </div>
+        <div class="row justify-content-center mt-3">
+            <div class="col-md-6">
+                <p id="message" class="text-success d-none">Congratulations! Sudoku solved.</p>
+            </div>
+        </div>
+    </div>
+    <div class="card" onclick="toggleContent()">
+        <h2 class="backtracking-heading">How Backtracking is Used to Solve Sudoku</h2>
+        <div class="content">
+            <p>Backtracking is an algorithmic technique whose goal is to use brute force to find all solutions to a problem. It entails gradually compiling a set of all possible solutions. Because a problem will have constraints, solutions that do not meet them will be removed..</p>
+            <p>Backtracking algorithms are commonly used in a variety of fields, including computer science, operations research, artificial intelligence, and combinatorial optimization. Some of the common applications of backtracking algorithms include:<br><br>
+
+Solving puzzles and games,Backtracking algorithms can be used to solve puzzles and games such as Sudoku, crosswords, and chess.<br><br>
+
+Graph traversal,Backtracking algorithms can be used to traverse graphs and find all possible paths between two nodes.<br><br>
+
+ Backtracking algorithms can be used to solve combinatorial optimization problems such as the traveling salesman problem, which involves finding the shortest possible route that visits a set of cities and returns to the starting point.<br><br>
+
+
+Natural language processing: Backtracking algorithms can be used in natural language processing to parse sentences and identify parts of speech.<br><br>
+
+Overall, backtracking algorithms are a powerful tool that can be used to solve a wide range of problems across various fields.<br>
+
+</p>
+        </div>
+    </div>
+
+
+<!-- Footer Section -->
+<footer class="footer fixed-bottom">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-3" style="right: 397px !important; position: relative !important;"">
+                <!-- Profile Card -->
+                <div class="profile-card">
+                    <img src="b.jpeg" alt="Profile Image" class="profile-image">
+                    <h2>Anant Sharma</h2>
+                    <p>Full Stack Developer</p>
+                </div>
+            </div>
+            <div class="col-md-9" style="
+            top: 130px;
+            right: 415px;
+        ">
+                <div class="links-card" >
+                    <h2>Connect with Me</h2>
+                    <ul class="social-list list-inline py-3 mx-auto">
+                        <li class="list-inline-item" title="Linkedin"><a
+                                href="https://www.linkedin.com/in/anant-sharma-5a9355194/" target="_blank"><i
+                                    class="fab fa-linkedin-in fa-fw" title="Linkedin"
+                                    style="color: #ff004f;"></i></a>
+                        </li>
+                        <li class="list-inline-item" title="Github"><a href="https://github.com/anant114"
+                                target="_blank"><i class="fab fa-github-alt fa-fw" title="Github"
+                                    style="color: #ff004f;"></i></a></li>
+                        <li class="list-inline-item" title="Instagram"><a
+                                href="https://www.instagram.com/smileyaah/" target="_blank"><i
+                                    class="fab fa-instagram fa-fw" title="Instagram"
+                                    style="color: #ff004f;"></i></a></li>
+                        <li class="list-inline-item" title="Portfolio"><a href="https://anant114-blog.netlify.app//"
+                                target="_blank"><i class="fab fa-codepen fa-fw" title="Portfolio"
+                                    style="color: #ff004f;"></i></a></li>
+                    </ul><!--//social-list-->
+                </div>            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function toggleContent() {
+        const content = document.querySelector('.content');
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+        } else {
+            content.style.display = 'none';
+        }
+    }
+</script>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const sudokuGrid = document.getElementById("sudoku-grid");
+    const generateButton = document.getElementById("generate-button");
+    const solveButton = document.getElementById("solve-button");
+    const submitButton = document.getElementById("submit-button");
+
+    let sudoku = [];
+    let puzzle = [];
+
+    // Define and initialize solvedBoard
+    let solvedBoard = [];
+
+    function enableUserInput() {
+        const cells = sudokuGrid.getElementsByTagName("td");
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].contentEditable = true;
+        }
+    }
+
+    // Function to disable user input in the Sudoku grid
+    function disableUserInput() {
+        const cells = sudokuGrid.getElementsByTagName("td");
+        for (let i = 0; i < cells.length; i++) {
+            cells[i].contentEditable = false;
+        }
+    }
+
+            // Empty Sudoku board
+            const emptyBoard = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ];
+
+            // Function to generate a random Sudoku puzzle
+            function generateSudoku() {
+                const sudoku = [];
+                const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+                // Create an empty Sudoku board
+                for (let i = 0; i < 9; i++) {
+                    sudoku.push([]);
+                    for (let j = 0; j < 9; j++) {
+                        sudoku[i].push(0);
+                    }
+                }
+
+                // Fill the diagonal subgrids
+                for (let i = 0; i < 9; i += 3) {
+                    fillSubgrid(sudoku, i, i);
+                }
+
+                // Solve the Sudoku puzzle
+                solveSudoku(sudoku);
+
+                // Create a copy of the solved puzzle (with some numbers removed)
+                const puzzle = copySudoku(sudoku);
+                removeNumbers(puzzle);
+
+                return puzzle;
+            }
+
+            // Function to fill a 3x3 subgrid with random numbers
+            function fillSubgrid(board, row, col) {
+                const subgrid = shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 3; j++) {
+                        board[row + i][col + j] = subgrid.pop();
+                    }
+                }
+            }
+
+            // Function to shuffle an array
+            function shuffle(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+                return array;
+            }
+
+            // Function to create a copy of a Sudoku board
+            function copySudoku(board) {
+                return board.map(row => [...row]);
+            }
+
+            // Function to remove some numbers to create a puzzle
+            function removeNumbers(board) {
+                const numToRemove = Math.floor(Math.random() * (64 - 50)) + 50; // Adjust the range as needed
+
+                for (let i = 0; i < numToRemove; i++) {
+                    const row = Math.floor(Math.random() * 9);
+                    const col = Math.floor(Math.random() * 9);
+                    board[row][col] = 0;
+                }
+            }
+
+            function solveSudoku(board) {
+                const emptyCell = findEmptyCell(board);
+
+                // If there are no empty cells, the puzzle is solved
+                if (!emptyCell) {
+                    return true;
+                }
+
+                const [row, col] = emptyCell;
+
+                // Try numbers from 1 to 9
+                for (let num = 1; num <= 9; num++) {
+                    // Check if the number is valid in the current cell
+                    if (isValidMove(board, row, col, num)) {
+                        // Place the number in the cell
+                        board[row][col] = num;
+
+                        // Recursively try to solve the rest of the puzzle
+                        if (solveSudoku(board)) {
+                            return true; // If the puzzle is solved, return true
+                        }
+
+                        // If placing the number didn't lead to a solution, backtrack
+                        board[row][col] = 0;
+                    }
+                }
+
+                // If no number works in the current cell, backtrack to the previous cell
+                return false;
+            }
+
+            // Function to find the next empty cell in the board
+            function findEmptyCell(board) {
+                for (let row = 0; row < 9; row++) {
+                    for (let col = 0; col < 9; col++) {
+                        if (board[row][col] === 0) {
+                            return [row, col];
+                        }
+                    }
+                }
+                return null; // If there are no empty cells, return null
+            }
+
+            // Function to check if a number is valid in the current cell
+            function isValidMove(board, row, col, num) {
+                // Check if the number is already in the row or column
+                for (let i = 0; i < 9; i++) {
+                    if (board[row][i] === num || board[i][col] === num) {
+                        return false;
+                    }
+                }
+
+                // Check if the number is in the 3x3 grid
+                const startRow = Math.floor(row / 3) * 3;
+                const startCol = Math.floor(col / 3) * 3;
+                for (let i = startRow; i < startRow + 3; i++) {
+                    for (let j = startCol; j < startCol + 3; j++) {
+                        if (board[i][j] === num) {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            generateButton.addEventListener("click", function () {
+        sudoku = generateSudoku();
+        solvedBoard = copySudoku(sudoku); // Update solvedBoard
+        displaySudoku(sudoku);
+        enableUserInput();
+    });
+
+    // Solve Sudoku puzzle when the "Solve Sudoku" button is clicked
+    solveButton.addEventListener("click", function () {
+    // Get the current Sudoku board from the grid
+    const currentBoard = getCurrentBoard();
+    
+    // Create a copy of the current board to solve
+    const boardToSolve = copySudoku(currentBoard);
+
+    // Solve the Sudoku puzzle
+    solveSudoku(boardToSolve);
+
+    // Display the solved puzzle
+    displaySudoku(boardToSolve);
+  if (isValid) {
+            document.getElementById("message").classList.remove("text-danger");
+            document.getElementById("message").classList.add("text-success");
+            document.getElementById("message").classList.remove("d-none");
+            document.getElementById("message").textContent = "Congratulations! Sudoku solved.";
+        } else {
+            document.getElementById("message").classList.remove("text-success");
+            document.getElementById("message").classList.add("text-danger");
+            document.getElementById("message").classList.remove("d-none");
+            document.getElementById("message").textContent = "Incorrect solution. Please try again.";
+        }
+    });
+
+
+            // Function to validate the user's solution
+            function validateSolution(userBoard) {
+                // Compare the user's solution with the solved board
+                for (let i = 0; i < 9; i++) {
+                    for (let j = 0; j < 9; j++) {
+                        if (userBoard[i][j] !== solvedBoard[i][j]) {
+                            return false;
+                        }
+                    }
+                }
+                return true; // If all cells match the solution, it's correct
+            }
+            // Function to get the current Sudoku board from the grid
+            function getCurrentBoard() {
+                const currentBoard = [];
+                const rows = sudokuGrid.getElementsByTagName("tr");
+                for (let i = 0; i < 9; i++) {
+                    const row = rows[i].getElementsByTagName("td");
+                    const rowData = [];
+                    for (let j = 0; j < 9; j++) {
+                        rowData.push(parseInt(row[j].textContent) || 0);
+                    }
+                    currentBoard.push(rowData);
+                }
+                return currentBoard;
+            }
+
+            // Function to display the Sudoku puzzle on the grid
+            function displaySudoku(board) {
+                sudokuGrid.innerHTML = "";
+                for (let i = 0; i < 9; i++) {
+                    const row = document.createElement("tr");
+                    for (let j = 0; j < 9; j++) {
+                        const cell = document.createElement("td");
+                        cell.textContent = board[i][j] !== 0 ? board[i][j] : "";
+                        row.appendChild(cell);
+                    }
+                    sudokuGrid.appendChild(row);
+                }
+            }
+        });
+
+    </script>
+</body>
+
+</html>
